@@ -1,0 +1,7 @@
+com\bittorrent\model\Torrent.class
+com\bittorrent\repository\DownloadRepository.class
+com\bittorrent\controller\TorrentController.class
+com\bittorrent\BitTorrentApplication.class
+com\bittorrent\service\TorrentService.class
+com\bittorrent\model\Download.class
+com\bittorrent\repository\TorrentRepository.class
