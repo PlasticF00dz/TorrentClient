@@ -45,3 +45,6 @@ frontend/dist/
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Ignore application properties files (local config)
+**/application.properties
