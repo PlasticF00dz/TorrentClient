@@ -16,7 +16,7 @@ A modern, full-stack BitTorrent client application built with **Spring Boot** ba
 
 **Backend:**
 - Java 17 + Spring Boot 3.3.0
-- Spring Data JPA + PostgreSQL
+- Spring Data JPA + H2 (file-based, embedded)
 - TTorrent Core 1.5 (BitTorrent protocol)
 - Maven build tool
 
@@ -30,12 +30,16 @@ A modern, full-stack BitTorrent client application built with **Spring Boot** ba
 - Java 17+
 - Maven 3.6+
 - Node.js 14+ and npm
-- PostgreSQL 12+
+- No external DB required (uses embedded H2 by default)
 
 ## 🚀 Quick Start
 
-### 1. Database Setup
-Create PostgreSQL database named `bittorrent_client` and update credentials in `backend/src/main/resources/application.properties`
+### 1. Database (H2) Setup
+This project uses an embedded H2 file-based database by default. No external database server is required.
+
+- Default H2 JDBC URL: `jdbc:h2:file:./data/bittorrent_client`
+- H2 Console (when backend is running): `http://localhost:8080/h2-console` (JDBC URL and credentials are shown in the application logs)
+- If you want to change the storage location or switch to another database, update `backend/src/main/resources/application.properties` accordingly.
 
 ### 2. Backend Setup
 Navigate to backend directory and run:
