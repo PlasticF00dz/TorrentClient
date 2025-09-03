@@ -45,10 +45,17 @@ public class TorrentService {
     }
 
     public Torrent uploadTorrent(MultipartFile file) throws IOException, NoSuchAlgorithmException {
-        Files.createDirectories(Paths.get(metaDir));
+        // Ensure the meta directory exists
+        File metaDirFile = new File(metaDir);
+        if (!metaDirFile.exists()) {
+            metaDirFile.mkdirs();
+        }
+        
         String fileName = file.getOriginalFilename();
-        String targetPath = metaDir + "/" + fileName;
-        file.transferTo(new File(targetPath));
+        File targetFile = new File(metaDirFile, fileName);
+        file.transferTo(targetFile);
+        
+        String targetPath = targetFile.getAbsolutePath();
 
         // Load the .torrent using ttorrent's Torrent class
         com.turn.ttorrent.common.Torrent tTorrent = com.turn.ttorrent.common.Torrent.load(new File(targetPath), true);
@@ -239,7 +246,13 @@ public class TorrentService {
         }
 
         private void updateProgress() {
-            double progress = sharedTorrent.getCompletion();
+            double progressPercentage = sharedTorrent.getCompletion();
+            // Convert percentage to decimal (0-1 range)
+            double progress = progressPercentage / 100.0;
+            
+            // Ensure progress doesn't exceed 1.0
+            progress = Math.min(progress, 1.0);
+            
             long downloadedBytes = (long) (progress * torrent.getSize());
             long uploadedBytes = 0; // Simplified - ttorrent doesn't expose this easily
 
